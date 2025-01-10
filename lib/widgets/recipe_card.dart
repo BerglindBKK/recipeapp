@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/models/recipe.dart';
+import 'package:recipeapp/data/recipe_data.dart';
 import 'package:recipeapp/recipe_app/screens/recipe_screen.dart';
-import 'package:recipeapp/colors.dart';  // Import custom colors
+import 'package:recipeapp/colors.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;  // Recipe object that holds all information about the recipe
@@ -23,26 +24,8 @@ class RecipeCard extends StatelessWidget {
         return AppColors.salad;
       case Category.dessert:
         return AppColors.dessert;
-      default:
-        return Colors.grey;  // Default color if the category is unknown
-    }
-  }
-
-  // This function returns the default image for each category
-  String _getCategoryDefaultImage(Category category) {
-    switch (category) {
-      case Category.meat:
-        return 'assets/images/default_meat.png';
-      case Category.fish:
-        return 'assets/images/default_fish.png';
-      case Category.pasta:
-        return 'assets/images/default_pasta.png';
-      case Category.salad:
-        return 'assets/images/default_salad.png';
-      case Category.dessert:
-        return 'assets/images/default_dessert.png';
-      default:
-        return 'assets/images/default_meat.png';  // Default image if the category is unknown
+      //default:
+        //return Colors.grey;  // Default color if the category is unknown
     }
   }
 
@@ -89,13 +72,13 @@ class RecipeCard extends StatelessWidget {
                       children: [
                         // Recipe title, if no title, show 'No Title'
                         Text(
-                          recipe.title ?? 'No Title',
+                          recipe.title,
                           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Color(0xFF4E4D4D),  // Set text color to #4E4D4D
+                            color: const Color(0xFF4E4D4D),  // Set text color to #4E4D4D
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             height: 1,
-                          ) ?? TextStyle(
+                          ) ?? const TextStyle(
                             color: Color(0xFF4E4D4D),  // Set text color to #4E4D4D
                             fontWeight: FontWeight.bold,
                             height: 1,
@@ -107,14 +90,14 @@ class RecipeCard extends StatelessWidget {
                             //Icon(Icons.timer, color: Color(0xFF4E4D4D)),  // Set icon color to #4E4D4D
                             //const SizedBox(width: 8),  // Space between icon and cooking time text
                             Text(
-                              ' ${recipe.cookingTime ?? 'Unknown'} min',  // Show cooking time or 'Unknown'
-                              style: TextStyle(color: Color(0xFF4E4D4D)),  // Set text color to #4E4D4D
+                              ' ${recipe.cookingTime} min',  // Show cooking time or 'Unknown'
+                              style: const TextStyle(color: Color(0xFF4E4D4D)),  // Set text color to #4E4D4D
                             ),
                             const Spacer(),  // Space between cooking time and category box
                             // Category name in a text box (no background color)
                             Text(
                               recipe.category.toString().split('.').last,  // Display category name (like 'meat', 'fish')
-                              style: TextStyle(color: Color(0xFF4E4D4D)),  // Set category text color to #4E4D4D
+                              style: const TextStyle(color: Color(0xFF4E4D4D)),  // Set category text color to #4E4D4D
                             ),
                           ],
                         ),
@@ -124,17 +107,17 @@ class RecipeCard extends StatelessWidget {
                 ),
                 // Positioned photo of the recipe (overlapping slightly above the card)
                 Positioned(
-                  top: -15,  // Vertically align the photo in the middle of the card
+                  top: -15,  // Vertically align the photo
                   left: isPhotoOnLeft ? 0 : null,  // Position photo to the left
-                  right: isPhotoOnLeft ? null :0,  // Position photo to the right
+                  right: isPhotoOnLeft ? null : 0,  // Position photo to the right
                   child: Material(
                     elevation: 4,  // Add elevation to the photo for shadow effect
                     borderRadius: BorderRadius.circular(75),  // Ensure the photo is circular
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(75),  // Keep the circular shape
-                      child: recipe.photoUrl != null && recipe.photoUrl!.isNotEmpty
-                          ? Image.network(
-                        recipe.photoUrl!,  // Load the image from URL
+                      child: recipe.imagePath != null && recipe.imagePath!.isNotEmpty // Check if imagePath exists and is not empty
+                      ? Image.asset(
+                        recipe.imagePath!,  // Load the image from local assets
                         width: 130,  // Set width of the photo
                         height: 130,  // Set height of the photo
                         fit: BoxFit.cover,  // Ensure the image covers the box without distortion
@@ -142,8 +125,20 @@ class RecipeCard extends StatelessWidget {
                           return const Icon(Icons.error);  // Show error if image fails to load
                         },
                       )
-                          : Image.asset(
-                        _getCategoryDefaultImage(recipe.category),  // Fallback image if no URL
+                      // If imagePath doesn't exist, try photoUrl (for network images):
+                      : recipe.photoUrl != null && recipe.photoUrl!.isNotEmpty
+                        ? Image.network(
+                          recipe.photoUrl!,  // Load the image from network
+                          width: 130,  // Set width of the photo
+                          height: 130,  // Set height of the photo
+                          fit: BoxFit.cover,  // Ensure the image covers the box without distortion
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(Icons.error);  // Show error if image fails to load
+                          },
+                        )
+                      // If neither imagePath nor photoUrl exists, use default image
+                      : Image.asset(
+                        getCategoryDefaultImage(recipe.category),  // Fallback image if no URL
                         width: 130,
                         height: 130,
                         fit: BoxFit.cover,

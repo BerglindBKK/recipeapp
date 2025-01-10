@@ -29,7 +29,7 @@ class CustomInputContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(8), // Rounded corners for the container
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             offset: const Offset(0, 4),
             blurRadius: 8,
             spreadRadius: 2,
@@ -48,7 +48,7 @@ class CustomInputContainer extends StatelessWidget {
           decoration: InputDecoration(
             labelText: labelText,
             labelStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha:0.6),
             ),
             border: InputBorder.none,
             contentPadding: const EdgeInsets.symmetric(vertical: 8.0),

@@ -45,6 +45,7 @@ dependencies:
   #text_hover: ^1.0.0+1
   uuid: ^4.5.1
   image_picker: ^1.1.2
+  permission_handler: ^11.3.1
   #image_picker: ^1.1.2
   #image_picker: ^1.0.8
 
@@ -52,7 +53,7 @@ dependencies:
 #  image_picker: ^1.1.0
 
 dev_dependencies:
-  uuid: ^4.5.1
+  #uuid: ^4.5.1
   flutter_test:
     sdk: flutter
 
@@ -83,6 +84,10 @@ flutter:
     - assets/images/default_dessert.png
     - assets/images/default_vegan.png
     - assets/images/raekjur.jpg
+    - assets/images/broccoli.jpg
+    - assets/images/pasta.jpg
+    - assets/images/rulluterta.jpg
+    - assets/images/hotdog.jpg
   # image: NetworkImage('https://example.com/your_image.png')
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Required for input formatters
+import 'package:image_picker/image_picker.dart';
+import 'dart:io'; // To work with File
 import 'package:recipeapp/models/recipe.dart';
 import 'package:recipeapp/widgets/custom_input_container.dart'; // Import custom input container
 import 'package:recipeapp/colors.dart'; // Import the colors file for category color management
+import 'package:permission_handler/permission_handler.dart';
 
-// This is the AddRecipesScreen where users can add a new recipe.
 class AddRecipesScreen extends StatefulWidget {
   const AddRecipesScreen({
     super.key,
-    required this.onBack,  // Callback to navigate back to previous screen
+    required this.onBack,  // Callback to navigate back to the previous screen
     required this.onAddRecipe,  // Callback to add the new recipe
   });
 
@@ -30,21 +31,22 @@ class _AddRecipesState extends State<AddRecipesScreen> {
   final _photoUrlController = TextEditingController();
   Category _selectedCategory = Category.dessert; // Default selected category is 'dessert'
 
+  File? _pickedImage;  // Variable to hold the picked image file
+  final ImagePicker _picker = ImagePicker();  // Create an instance of ImagePicker
+
   // Function to handle submitting the recipe data
   void _submitRecipeData() {
     // Check if any of the required fields are empty
     if (_titleController.text.trim().isEmpty ||
         _ingredientsController.text.trim().isEmpty ||
         _instructionsController.text.trim().isEmpty ||
-        _photoUrlController.text.trim().isEmpty) {
+        (_photoUrlController.text.trim().isEmpty && _pickedImage == null)) {
       // If some fields are empty, show an error dialog
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
           title: const Text('Error'),
-          // Error message
           content: const Text('All fields must be filled out!'),
-          // Warning message
           actions: [
             TextButton(
               onPressed: () {
@@ -58,6 +60,13 @@ class _AddRecipesState extends State<AddRecipesScreen> {
       return; // Don't proceed further if fields are empty
     }
 
+    // Handle the photo URL properly
+    String photoUrl = _pickedImage != null
+        ? _pickedImage!.path
+        : _photoUrlController.text.isEmpty
+        ? '' // Allow the photo URL to be empty
+        : _photoUrlController.text;
+
     // Create a new Recipe object with the data entered by the user
     Recipe newRecipe = Recipe(
       title: _titleController.text,
@@ -65,9 +74,9 @@ class _AddRecipesState extends State<AddRecipesScreen> {
       instructions: _instructionsController.text,
       category: _selectedCategory,
       cookingTime: _cookingTimeController.text.isEmpty
-          ? 'Unknown' // Default cooking time if the user leaves it empty
+          ? 'Unknown'
           : _cookingTimeController.text,
-      photoUrl: _photoUrlController.text,
+      photoUrl: photoUrl,  // Only assign the URL if it's not empty
     );
 
     // Call the onAddRecipe function to save the new recipe
@@ -85,7 +94,39 @@ class _AddRecipesState extends State<AddRecipesScreen> {
     _instructionsController.dispose();
     _cookingTimeController.dispose();
     _photoUrlController.dispose();
-    super.dispose(); // Call the superclass's dispose method
+    super.dispose();
+  }
+
+  // Function to pick image from gallery
+  Future<void> _pickImage() async {
+    // Check permission to access photos
+    PermissionStatus status = await Permission.photos.request();
+
+    if (status.isGranted) {
+      final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _pickedImage = File(pickedFile.path);  // Store the picked image
+        });
+      }
+    } else {
+      // Handle permission denial
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Permission Denied'),
+          content: const Text('Please allow gallery access to pick an image.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
@@ -94,47 +135,61 @@ class _AddRecipesState extends State<AddRecipesScreen> {
       body: Column(
         children: [
           // Photo Section (placed above the recipe form)
-          _photoUrlController.text.isNotEmpty
+          _pickedImage != null
               ? ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(0),
               topRight: Radius.circular(0),
             ),
-            child: Image.network(
-              _photoUrlController.text, // Show the image from the URL
+            child: Image.file(
+              _pickedImage!, // Show the picked image from the gallery
               width: double.infinity,
               height: 300, // Adjust height for the photo
               fit: BoxFit.cover, // Make the image cover the space
             ),
           )
-              : ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(0),
-              topRight: Radius.circular(0),
-            ),
-            child: Image.asset(
-              'assets/images/raekjur.jpg',
-              // Default image if no URL is provided
-              width: double.infinity,
-              height: 250, // Same height for default image
-              fit: BoxFit.cover, // Cover the space with the image
-            ),
+              : Column(
+            children: [
+              // Adjust the padding of the camera icon and text
+              const SizedBox(height: 90),
+              GestureDetector(
+                onTap: _pickImage,  // Trigger image picker on tap
+                child: MouseRegion(
+                  onEnter: (_) => setState(() {}),
+                  onExit: (_) => setState(() {}),
+                  child: Icon(
+                    Icons.camera_alt,
+                    color: Colors.grey[600],
+                    size: 80,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),  // Increase the space between icon and text
+              Text(
+                'Pick Image from Gallery',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                ),
+              ),
+              const SizedBox(height: 30),
+            ],
           ),
 
           // Recipe Form Section (below the photo)
-          Expanded(
+          Padding(
+            padding: const EdgeInsets.only(top: 0),  // Adjust top padding if necessary
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.grey[50],
-                // Light grey background for the form container
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(48),
                   topRight: Radius.circular(48),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1), // Light shadow effect
+                    color: Colors.black.withOpacity(0.1),
                     blurRadius: 8,
                     spreadRadius: 2,
                   ),
@@ -154,12 +209,12 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         children: [
-                          // Cooking Time Input (numbers only)
+                          // Cooking Time Input
                           Expanded(
                             child: CustomInputContainer(
                               labelText: 'Cooking Time (min)',
                               controller: _cookingTimeController,
-                              isNumberField: true, // Restrict input to numbers only
+                              isNumberField: true, // Allow only numbers
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -168,47 +223,20 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                           Expanded(
                             child: DropdownButton<Category>(
                               value: _selectedCategory,
-                              // Currently selected category
                               items: Category.values
                                   .map(
                                     (category) => DropdownMenuItem<Category>(
                                   value: category,
-                                  child: Row(
-                                    children: [
-                                      // Show a colored circle for the category
-                                      Container(
-                                        width: 20,
-                                        height: 20,
-                                        decoration: BoxDecoration(
-                                          color: _getCategoryColor(category),
-                                          // Color for the category
-                                          shape: BoxShape.circle, // Make it circular
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      // Display the category name with text style
-                                      Text(
-                                        category.name,
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface
-                                              .withOpacity(0.6),
-                                          // Matching text color
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500, // Matching font weight
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  child: Text(category.name),
                                 ),
                               )
                                   .toList(),
                               onChanged: (value) {
-                                if (value == null)
-                                  return; // No change if the value is null
+                                if (value == null) {
+                                  return;
+                                }
                                 setState(() {
-                                  _selectedCategory = value; // Update the selected category
+                                  _selectedCategory = value;
                                 });
                               },
                             ),
@@ -217,39 +245,29 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                       ),
                     ),
 
-                    // Ingredients input field (larger height)
+                    // Ingredients input field
                     CustomInputContainer(
                       labelText: 'Ingredients',
                       controller: _ingredientsController,
-                      height: 120,
-                      isNumberField: false, // It should allow text and numbers
                     ),
 
-                    // Instructions input field (larger height)
+                    // Instructions input field
                     CustomInputContainer(
                       labelText: 'Instructions',
                       controller: _instructionsController,
-                      height: 120,
-                      isNumberField: false, // It should allow text and numbers
                     ),
 
                     // Photo URL input field
                     CustomInputContainer(
-                      labelText: 'Photo URL',
+                      labelText: 'Add photo URL if no image added (optional)',
                       controller: _photoUrlController,
-                      height: 50,
                     ),
 
                     // Save Button
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _submitRecipeData,
-                      // Submit the recipe data when clicked
                       child: const Text('Save Recipe'),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
-                        textStyle: const TextStyle(fontSize: 14),
-                      ),
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -259,8 +277,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
           ),
         ],
       ),
-
-      // Floating action button (back button)
+      // Floating action button for back
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: Stack(
         children: [
@@ -270,7 +287,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
             child: Opacity(
               opacity: 0.75,
               child: FloatingActionButton(
-                onPressed: widget.onBack, // Go back when this button is pressed
+                onPressed: widget.onBack,
                 backgroundColor: Colors.white,
                 child: const Icon(Icons.arrow_back, color: Colors.black),
               ),
@@ -279,23 +296,5 @@ class _AddRecipesState extends State<AddRecipesScreen> {
         ],
       ),
     );
-  }
-
-  // Function to get the category color based on the selected category
-  Color _getCategoryColor(Category category) {
-    switch (category) {
-      case Category.meat:
-        return AppColors.meat; // Return the 'meat' color from the AppColors class
-      case Category.fish:
-        return AppColors.fish; // Return the 'fish' color
-      case Category.pasta:
-        return AppColors.pasta; // Return the 'pasta' color
-      case Category.salad:
-        return AppColors.salad; // Return the 'salad' color
-      case Category.dessert:
-        return AppColors.dessert; // Return the 'dessert' color
-      default:
-        return Colors.grey; // Default color if no category is selected
-    }
   }
 }

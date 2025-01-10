@@ -1,25 +1,14 @@
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-// Recipe model.
-// Defines different food categories and icon for each category
-// Uses uuid() to generate unique ID for each recipe
+// Recipe model. Defines different food categories and icon for each category
+// Uses uuid() to generate unique ID for each recipe (for deleting)
 
 //creates unique IDs for each recipe
 const uuid = Uuid();
 
 // Defines the categories
 enum Category { meat, fish, pasta, salad, dessert }
-
-// Defines icons for each category
-/*
-const categoryIcons = {
-  Category.meat: Icons.lunch_dining,
-  Category.fish: Icons.flight_takeoff,
-  Category.pasta: Icons.movie,
-  Category.salad: Icons.work,
-  Category.dessert: Icons.work,
-}; */
 
 //defines recipe class. Each recipe is assigned a unique ID using UUID.v4()
 class Recipe {

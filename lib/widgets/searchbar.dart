@@ -25,7 +25,7 @@ class _SearchBarAppState extends State<SearchBarApp> {
             width: double.infinity,  // Make search bar the same width as recipe cards.
             height: 55,  // Set height of search bar.
             decoration: BoxDecoration(
-              color: Color(0xFFF1F1F1),  // Light gray background.
+              color: const Color(0xFFF1F1F1),  // Light gray background.
               borderRadius: BorderRadius.circular(48),  // Rounded corners.
             ),
             child: TextField(
@@ -34,12 +34,12 @@ class _SearchBarAppState extends State<SearchBarApp> {
                   query = newQuery;  // Update query when user types.
                 });
               },
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search, color: Colors.black38),  // Search icon.
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.search, color: Colors.black38),  // Search icon.
                 hintText: 'Search...',  // Placeholder text.
                 hintStyle: TextStyle(color: Colors.black38),  // Hint text color.
                 border: InputBorder.none,  // No border around text field.
-                contentPadding: const EdgeInsets.symmetric(vertical: 15),  // Padding inside the text field.
+                contentPadding: EdgeInsets.symmetric(vertical: 15),  // Padding inside the text field.
               ),
             ),
           ),

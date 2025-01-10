@@ -61,7 +61,7 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
                 icon: const Icon(Icons.arrow_back_ios), // The icon for the back button
               ),
               // Title of the screen
-              Text(
+              const Text(
                 'All Recipes', // Title text
                 style: TextStyle(fontSize: 24, color: Colors.black), // Style for the title text
               ),
@@ -80,7 +80,7 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
               width: double.infinity,  // Make the search bar the same width as recipe cards
               height: 55,  // Set height of the search bar
               decoration: BoxDecoration(
-                color: Color(0xFFF1F1F1),  // Light grey background
+                color: const Color(0xFFF1F1F1),  // Light grey background
                 borderRadius: BorderRadius.circular(48),  // Rounded corners
               ),
               child: TextField(
@@ -90,18 +90,18 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
                   });
                 },
                 textAlign: TextAlign.center,  // Center the text and placeholder inside the field
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Search recipes...',  // Placeholder text in the search field
                   hintStyle: TextStyle(color: Color(0xFFA5A5A5)),  // Set the color of the placeholder text
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.only(left: 12.0),  // Adjust icon padding so it stays centered
+                    padding: EdgeInsets.only(left: 12.0),  // Adjust icon padding so it stays centered
                     child: Icon(
                       Icons.search,  // Search icon
                       color: Color(0xFFA5A5A5),  // Set the color of the icon
                     ),
                   ),
                   border: InputBorder.none,  // Remove the default border
-                  contentPadding: const EdgeInsets.symmetric(vertical: 15),  // Center the content vertically
+                  contentPadding: EdgeInsets.symmetric(vertical: 15),  // Center the content vertically
                 ),
               ),
             ),

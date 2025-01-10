@@ -32,7 +32,7 @@ class MainScreenButton extends StatelessWidget {
       child: Text(
         buttonText, // Display the button text passed as a parameter
         textAlign: TextAlign.center, // Center the text inside the button
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18, // Set the font size of the text
           fontWeight: FontWeight.bold, // Make the text bold
           shadows: [

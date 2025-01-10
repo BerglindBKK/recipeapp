@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:recipeapp/theme.dart';
+//import 'package:recipeapp/theme.dart';
 import 'package:recipeapp/widgets/main_screen_button.dart';
-import 'package:recipeapp/widgets/recipe_card.dart';
-import 'package:recipeapp/widgets/recipes_list.dart';
-import 'package:recipeapp/models/recipe.dart';
-import 'package:recipeapp/recipe_app/screens/all_recipes_screen.dart';
+//import 'package:recipeapp/widgets/recipe_card.dart';
+//import 'package:recipeapp/widgets/recipes_list.dart';
+//import 'package:recipeapp/models/recipe.dart';
+//import 'package:recipeapp/recipe_app/screens/all_recipes_screen.dart';
 //import 'package:text_hover/config.dart';
 //import 'package:text_hover/text_hover.dart';
 //import 'package:lokaverkefni/widgets/floating_action_button.dart';

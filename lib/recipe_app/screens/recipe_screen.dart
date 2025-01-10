@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/models/recipe.dart';
-import 'package:recipeapp/colors.dart'; // Import the colors file
+import 'package:recipeapp/data/recipe_data.dart';
+// import 'package:recipeapp/colors.dart'; // Import the colors file
 import 'package:recipeapp/widgets/big_recipe_card.dart'; // Import the BigRecipeCard widget
-import 'package:recipeapp/recipe_app/screens/all_recipes_screen.dart'; // Import AllRecipesScreen
+// import 'package:recipeapp/recipe_app/screens/all_recipes_screen.dart'; // Import AllRecipesScreen
 
 class RecipeScreen extends StatelessWidget {
   final Recipe recipe;
@@ -19,30 +20,33 @@ class RecipeScreen extends StatelessWidget {
             top: 0,
             left: 0,
             right: 0,
-            child: recipe.photoUrl != null && recipe.photoUrl!.isNotEmpty
-                ? ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(0), // Matching the recipe card rounded corners
-                topRight: Radius.circular(0),
-              ),
-              child: Image.network(
-                recipe.photoUrl!,
-                width: double.infinity,
-                height: 300, // Adjust the height of the photo
-                fit: BoxFit.cover,
-              ),
+            child: recipe.imagePath != null && recipe.imagePath!.isNotEmpty // Check if imagePath exists and is not empty
+            ? Image.asset(
+              recipe.imagePath!,
+              width: double.infinity,
+              height: 300, // Adjust the height of the photo
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(Icons.error);  // Show error if image fails to load
+              },
             )
-                : ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(0), // Matching the recipe card rounded corners
-                topRight: Radius.circular(0),
-              ),
-              child: Image.asset(
-                'assets/images/raekjur.jpg',
-                width: double.infinity,
-                height: 300, // Adjust the height of the photo
-                fit: BoxFit.cover,
-              ),
+            // If imagePath doesn't exist, try photoUrl (for network images):
+            : recipe.photoUrl != null && recipe.photoUrl!.isNotEmpty
+                ? Image.network(
+              recipe.photoUrl!,
+              width: double.infinity,
+              height: 300, // Adjust the height of the photo
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(Icons.error);  // Show error if image fails to load
+              },
+            )
+            // If neither imagePath nor photoUrl exists, use default image
+            : Image.asset(
+              getCategoryDefaultImage(recipe.category),
+              width: double.infinity,
+              height: 300, // Adjust the height of the photo
+              fit: BoxFit.cover,
             ),
           ),
 
@@ -56,13 +60,13 @@ class RecipeScreen extends StatelessWidget {
               padding: const EdgeInsets.all(0),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(48), // Rounded corners for the top
                   topRight: Radius.circular(48),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha:0.1),
                     blurRadius: 8,
                     spreadRadius: 2,
                   ),

@@ -27,7 +27,7 @@ class _NewRecipeState extends State<NewRecipe> {
   final _ingredientsController = TextEditingController();
   final _instructionsController = TextEditingController();
   final _photoUrlController = TextEditingController();
-  Category _selectedCategory = Category.dessert;
+  //Category _selectedCategory = Category.dessert;
 
   // Add a variable to store the picked image
   File? _image;

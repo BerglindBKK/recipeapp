@@ -35,7 +35,7 @@ class RecipesList extends StatelessWidget {
               );
             },
             background: Container(
-              color: Colors.red.withOpacity(0.75),
+              color: Colors.red.withValues(alpha:0.75),
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: const Icon(Icons.delete, color: Colors.white),

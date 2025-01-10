@@ -35,7 +35,7 @@ class BigRecipeCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1), // Light shadow effect
+            color: Colors.black.withValues(alpha:0.1), // Light shadow effect
             blurRadius: 8,
             spreadRadius: 2,
           ),

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color meat = Color(0xFFFFF3E5);  // Updated Pink color for meat
-  static const Color fish = Color(0xFFE5EDFF);  // Updated light blue color for fish
-  static const Color pasta = Color(0xFFFFF9D6); // Updated light yellow color for pasta
-  static const Color salad = Color(0xFFF1FFDE); // Updated light green color for salad
-  static const Color dessert = Color(0xFFFDEBFD); // Purple color for dessert (no change)
+  static const Color meat = Color(0xFFFFF3E5);
+  static const Color fish = Color(0xFFE5EDFF);
+  static const Color pasta = Color(0xFFFFF9D6);
+  static const Color salad = Color(0xFFF1FFDE);
+  static const Color dessert = Color(0xFFFDEBFD);
+  static const Color fonts = Color(0xFF4E4D4D);
 }
 
 const Color lightRed = Color.fromARGB(255, 255, 87, 87);

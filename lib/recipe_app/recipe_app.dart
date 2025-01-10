@@ -68,7 +68,14 @@ class _RecipeAppState extends State<RecipeApp> {
         );
         break;
       default:
-        screenWidget = WelcomeScreen(onNavigate: switchScreen);
+        screenWidget = AllRecipesScreen(
+          // onBack callback switches back to "welcome-screen"
+          onBack: () => switchScreen('welcome-screen'),
+          // Passes the list of registered recipes to the AllRecipesScreen to display.
+          recipes: _registeredRecipes,
+          // Pass the onNavigate callback to switch screens
+          onNavigate: switchScreen,
+        );
     }
 
     return MaterialApp(
