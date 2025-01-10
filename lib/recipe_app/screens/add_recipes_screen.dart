@@ -34,6 +34,10 @@ class _AddRecipesState extends State<AddRecipesScreen> {
   File? _pickedImage;  // Variable to hold the picked image file
   final ImagePicker _picker = ImagePicker();  // Create an instance of ImagePicker
 
+  // Hover colors for the camera icon and text
+  Color _cameraIconColor = Colors.grey[600]!;
+  Color _textColor = Colors.grey[600]!;
+
   // Function to handle submitting the recipe data
   void _submitRecipeData() {
     // Check if any of the required fields are empty
@@ -150,16 +154,25 @@ class _AddRecipesState extends State<AddRecipesScreen> {
           )
               : Column(
             children: [
-              // Adjust the padding of the camera icon and text
               const SizedBox(height: 90),
               GestureDetector(
                 onTap: _pickImage,  // Trigger image picker on tap
                 child: MouseRegion(
-                  onEnter: (_) => setState(() {}),
-                  onExit: (_) => setState(() {}),
+                  onEnter: (_) {
+                    setState(() {
+                      _cameraIconColor = Colors.purple; // Change icon color to purple
+                      _textColor = Colors.purple; // Change text color to purple
+                    });
+                  },
+                  onExit: (_) {
+                    setState(() {
+                      _cameraIconColor = Colors.grey[600]!; // Reset icon color
+                      _textColor = Colors.grey[600]!; // Reset text color
+                    });
+                  },
                   child: Icon(
                     Icons.camera_alt,
-                    color: Colors.grey[600],
+                    color: _cameraIconColor,
                     size: 80,
                   ),
                 ),
@@ -169,7 +182,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                 'Pick Image from Gallery',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.grey[600],
+                  color: _textColor, // Set the color to purple on hover
                 ),
               ),
               const SizedBox(height: 30),
@@ -177,8 +190,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
           ),
 
           // Recipe Form Section (below the photo)
-          Padding(
-            padding: const EdgeInsets.only(top: 0),  // Adjust top padding if necessary
+          Expanded(  // Use Expanded to make the form container take remaining space
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -249,12 +261,14 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                     CustomInputContainer(
                       labelText: 'Ingredients',
                       controller: _ingredientsController,
+                      height: 110,
                     ),
 
                     // Instructions input field
                     CustomInputContainer(
                       labelText: 'Instructions',
                       controller: _instructionsController,
+                      height: 110,
                     ),
 
                     // Photo URL input field
