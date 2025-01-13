@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/widgets/recipes_list.dart';
 import 'package:recipeapp/models/recipe.dart';
+import 'package:recipeapp/recipe_app/screens/favorites_screen.dart';
 
 class AllRecipesScreen extends StatefulWidget {
   final List<Recipe> recipes; // List of recipes passed from previous screen
@@ -118,17 +119,42 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
         ],
       ),
 
-      // Floating Action Button to navigate to Add Recipes Screen
-      floatingActionButton: FloatingActionButton(
-        elevation: 5.0,
-        onPressed: () => widget.onNavigate('add-recipes'), // Use the onNavigate callback
-        backgroundColor: Colors.white,  // Set the background color to white
-        child: const Icon(
-          Icons.add,  // Icon inside the button
-          color: Colors.black,  // Set the icon color to black so it stands out against the white background
-        ),
-      ),
+      // Floating Action Button to navigate to Add Recipes Screen and FavoritesScreen
+      floatingActionButton: Stack(
+        children: [
+          // FAB for Add Recipe
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: FloatingActionButton(
+              elevation: 5.0,
+              onPressed: () => widget.onNavigate('add-recipes'), // Existing navigation logic
+              backgroundColor: Colors.white,
+              child: const Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
+            ),
+          ),
 
+          // FAB for Favorites
+          Positioned(
+            bottom: 16,
+            left: 16,
+            child: FloatingActionButton(
+              elevation: 5.0,
+              onPressed: () {
+                widget.onNavigate('favorites'); // Trigger the navigation to favorites screen
+              },
+              backgroundColor: Colors.white,
+              child: const Icon(
+                Icons.favorite,  // Heart icon for favorites
+                color: Colors.red,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

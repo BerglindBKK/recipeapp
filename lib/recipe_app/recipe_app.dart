@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipeapp/models/recipe.dart';
 import 'package:recipeapp/recipe_app/screens/add_recipes_screen.dart';
 import 'package:recipeapp/recipe_app/screens/all_recipes_screen.dart';
+import 'package:recipeapp/recipe_app/screens/favorites_screen.dart';
 import 'package:recipeapp/recipe_app/screens/welcome_screen.dart';
 import 'package:recipeapp/data/recipe_data.dart';
 
@@ -67,6 +68,10 @@ class _RecipeAppState extends State<RecipeApp> {
           onAddRecipe: _addRecipe,
         );
         break;
+      case 'favorites':
+        screenWidget = FavoritesScreen(
+          onBack: () => switchScreen('all-recipes'),
+        );
       default:
         screenWidget = AllRecipesScreen(
           // onBack callback switches back to "welcome-screen"

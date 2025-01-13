@@ -5,111 +5,125 @@ import 'package:recipeapp/data/recipe_data.dart';
 import 'package:recipeapp/widgets/big_recipe_card.dart'; // Import the BigRecipeCard widget
 // import 'package:recipeapp/recipe_app/screens/all_recipes_screen.dart'; // Import AllRecipesScreen
 
-class RecipeScreen extends StatelessWidget {
+class RecipeScreen extends StatefulWidget {
   final Recipe recipe;
 
   const RecipeScreen({required this.recipe, super.key});
+
+  @override
+  _RecipeScreenState createState() => _RecipeScreenState();
+}
+
+class _RecipeScreenState extends State<RecipeScreen> {
+  late bool _isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    // Check if the recipe is already a favorite
+    _isFavorite = _checkIfFavorite(widget.recipe);
+  }
+
+  // Example function to check if the recipe is in the favorites list
+  bool _checkIfFavorite(Recipe recipe) {
+    // in-memory list of favorite recipes
+    return false; //replace this logic with actual favorite management?
+  }
+
+  // Toggle the favorite status of the recipe
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+      // Perform the logic to add or remove the recipe from favorites
+      // You could update the favorites list in your global state or persistence here
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Photo Section (this is the background image behind the recipe card)
           Positioned(
             top: 0,
             left: 0,
             right: 0,
-            child: recipe.imagePath != null && recipe.imagePath!.isNotEmpty // Check if imagePath exists and is not empty
-            ? Image.asset(
-              recipe.imagePath!,
+            child: widget.recipe.imagePath != null && widget.recipe.imagePath!.isNotEmpty
+                ? Image.asset(
+              widget.recipe.imagePath!,
               width: double.infinity,
-              height: 300, // Adjust the height of the photo
+              height: 300,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.error);  // Show error if image fails to load
-              },
             )
-            // If imagePath doesn't exist, try photoUrl (for network images):
-            : recipe.photoUrl != null && recipe.photoUrl!.isNotEmpty
+                : widget.recipe.photoUrl != null && widget.recipe.photoUrl!.isNotEmpty
                 ? Image.network(
-              recipe.photoUrl!,
+              widget.recipe.photoUrl!,
               width: double.infinity,
-              height: 300, // Adjust the height of the photo
+              height: 300,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.error);  // Show error if image fails to load
-              },
             )
-            // If neither imagePath nor photoUrl exists, use default image
-            : Image.asset(
-              getCategoryDefaultImage(recipe.category),
+                : Image.asset(
+              'assets/default_recipe_image.jpg',
               width: double.infinity,
-              height: 300, // Adjust the height of the photo
+              height: 300,
               fit: BoxFit.cover,
             ),
           ),
-
-          // Recipe Card Section (this is the card with recipe details)
           Positioned(
-            top: 250, // Position the recipe card below the photo (it will overlap)
+            top: 250,
             left: 0,
             right: 0,
-            bottom: 0, // Ensure it takes the remaining space
+            bottom: 0,
             child: Container(
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(48), // Rounded corners for the top
+                  topLeft: Radius.circular(48),
                   topRight: Radius.circular(48),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha:0.1),
+                    color: Colors.black.withOpacity(0.1),
                     blurRadius: 8,
                     spreadRadius: 2,
                   ),
                 ],
               ),
-              child: BigRecipeCard(recipe: recipe), // Use BigRecipeCard widget
+              child: BigRecipeCard(recipe: widget.recipe),
             ),
           ),
         ],
       ),
-
-      // Floating Action Buttons
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: Stack(
         children: [
-          // Back Button (to navigate back to AllRecipesScreen)
           Positioned(
             top: 16,
-            left: 4, // Ensure padding on the left side
+            left: 4,
             child: Opacity(
-              opacity: 0.75, // Set the opacity for the entire button (0.0 to 1.0)
+              opacity: 0.75,
               child: FloatingActionButton(
                 onPressed: () {
-                  Navigator.pop(context); // Navigate back to AllRecipesScreen
+                  Navigator.pop(context);
                 },
                 backgroundColor: Colors.white,
                 child: const Icon(Icons.arrow_back, color: Colors.black),
               ),
             ),
           ),
-
-          // Favorite Button (Heart button)
           Positioned(
             top: 16,
-            right: 32, // Ensure padding on the right side
+            right: 32,
             child: Opacity(
-              opacity: 0.75, // Set the opacity for the entire button (0.0 to 1.0)
+              opacity: 0.75,
               child: FloatingActionButton(
-                onPressed: () {
-                  // Your favorite action goes here
-                },
+                onPressed: _toggleFavorite,
                 backgroundColor: Colors.white,
-                child: const Icon(Icons.favorite, color: Colors.red),
+                child: Icon(
+                  _isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: _isFavorite ? Colors.red : Colors.black,
+                ),
               ),
             ),
           ),
@@ -118,3 +132,4 @@ class RecipeScreen extends StatelessWidget {
     );
   }
 }
+

@@ -16,7 +16,7 @@ class Recipes extends StatefulWidget {
 class _RecipeState extends State<Recipes> {
   // Sample list of recipes
   final List<Recipe> _registeredRecipes = [
-    Recipe(
+    /*Recipe(
       title: 'Rice crispies cookies',
       ingredients: 'rice crispies, syrup',
       instructions: 'Mix and cool',
@@ -29,7 +29,7 @@ class _RecipeState extends State<Recipes> {
       instructions: 'Cook pasta, prepare sauce',
       cookingTime: '30 min',
       category: Category.pasta,
-    ),
+    ),*/
   ];
 
   void _addRecipe(Recipe recipe) {
