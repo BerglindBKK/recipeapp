@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/models/recipe.dart';
 import 'package:recipeapp/widgets/recipe_card.dart';
+import 'package:recipeapp/recipe_app/screens/recipe_screen.dart';
 
 class RecipesList extends StatelessWidget {
   const RecipesList({
     super.key,
     required this.recipes,
-    required this.onDeleteRecipe,  // Callback for deleting a recipe
+    required this.onDeleteRecipe,
+    required this.toggleFavorite,
+    required this.onRecipeTap,
   });
 
   final List<Recipe> recipes;
-  final Function(Recipe) onDeleteRecipe;  // Callback for deleting recipe
+  final Function(Recipe) onDeleteRecipe;
+  final Function(Recipe) toggleFavorite;
+  final Function(Recipe) onRecipeTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30),  // Add space above the ListView
+      padding: const EdgeInsets.only(top: 30),
       child: ListView.separated(
-        itemCount: recipes.isEmpty ? 1 : recipes.length, // Display placeholder if empty
+        itemCount: recipes.isEmpty ? 1 : recipes.length,
         itemBuilder: (ctx, index) {
           if (recipes.isEmpty) {
             return const Center(child: Text('No recipes available.'));
@@ -35,19 +40,24 @@ class RecipesList extends StatelessWidget {
               );
             },
             background: Container(
-              color: Colors.red.withValues(alpha:0.75),
+              color: Colors.red.withOpacity(0.75),
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: const Icon(Icons.delete, color: Colors.white),
             ),
-            child: RecipeCard(
-              recipe: recipes[index],
-              isPhotoOnLeft: index % 2 == 0,  // Alternate photo position based on index
+            child: GestureDetector(
+              onTap: () => onRecipeTap(recipes[index]),
+              child: RecipeCard(
+                recipe: recipes[index],
+                isPhotoOnLeft: index % 2 == 0,
+                isFavorite: recipes[index].isFavorite,
+                toggleFavorite: () => toggleFavorite(recipes[index]),
+              ),
             ),
           );
         },
         separatorBuilder: (ctx, index) {
-          return const SizedBox(height: 30);  // Add space between items
+          return const SizedBox(height: 30);
         },
       ),
     );

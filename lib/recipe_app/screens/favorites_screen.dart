@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:recipeapp/models/recipe.dart';
 import 'package:recipeapp/recipe_app/screens/recipe_screen.dart';
 
+import '../../widgets/recipe_card.dart';
+
 class FavoritesScreen extends StatefulWidget {
   final VoidCallback onBack; // Callback to go back to the previous screen
 
@@ -15,7 +17,7 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  // List of favorite recipes -stored in memory
+  // List of favorite recipes - stored in memory
   final List<Recipe> _favoriteRecipes = [];
 
   // Add or remove a recipe from the favorites list
@@ -34,18 +36,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Padding(
-          padding: const EdgeInsets.only(top: 48.0, left: 16), // Adjust padding for proper positioning
+          padding: const EdgeInsets.only(top: 48.0, left: 16),
           child: Row(
             children: [
-              // Back button that calls the onBack function when pressed
               IconButton(
-                onPressed: widget.onBack, // Goes back to the previous screen
-                icon: const Icon(Icons.arrow_back_ios), // The icon for the back button
+                onPressed: widget.onBack,  // Go back to previous screen
+                icon: const Icon(Icons.arrow_back_ios),
               ),
-              // Title of the screen
               const Text(
-                'All Recipes', // Title text
-                style: TextStyle(fontSize: 24, color: Colors.black), // Style for the title text
+                'Favorites',
+                style: TextStyle(fontSize: 24, color: Colors.black),
               ),
             ],
           ),
@@ -62,26 +62,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         itemCount: _favoriteRecipes.length,
         itemBuilder: (context, index) {
           final recipe = _favoriteRecipes[index];
-          return ListTile(
-            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            leading: IconButton(
-              icon: const Icon(
-                Icons.favorite,
-                color: Colors.red,
-              ),
-              onPressed: () => _toggleFavorite(recipe),
-            ),
-            title: Text(recipe.title),
-            subtitle: Text(recipe.category.name),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              // Navigate to Recipe screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RecipeScreen(recipe: recipe),
-                ),
-              );
+          return RecipeCard(
+            recipe: recipe,
+            isPhotoOnLeft: index % 2 == 0,  // Alternate photo position
+            isFavorite: true,  // Since we're on the Favorites screen, the recipe is always a favorite
+            toggleFavorite: () {
+              _toggleFavorite(recipe);  // Toggle favorite status
             },
           );
         },

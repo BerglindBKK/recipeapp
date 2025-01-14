@@ -4,8 +4,15 @@ import 'package:recipeapp/colors.dart';
 
 class BigRecipeCard extends StatelessWidget {
   final Recipe recipe;
+  final bool isFavorite;
+  final VoidCallback toggleFavorite;
 
-  const BigRecipeCard({required this.recipe, super.key});
+  const BigRecipeCard({
+    required this.recipe,
+    required this.isFavorite, // You now require isFavorite
+    required this.toggleFavorite, // You now require toggleFavorite
+    super.key,
+  });
 
   // Helper method to get the category color for different categories
   Color _getCategoryColor(Category category) {
@@ -20,13 +27,15 @@ class BigRecipeCard extends StatelessWidget {
         return AppColors.salad;
       case Category.dessert:
         return AppColors.dessert;
+      default:
+        return Colors.grey;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0), // Padding inside the card
+      padding: const EdgeInsets.all(32.0), // Padding inside the card
       decoration: BoxDecoration(
         color: Colors.white, // White background for the card
         borderRadius: const BorderRadius.only(
@@ -35,7 +44,7 @@ class BigRecipeCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha:0.1), // Light shadow effect
+            color: Colors.black.withOpacity(0.1), // Light shadow effect
             blurRadius: 8,
             spreadRadius: 2,
           ),
@@ -52,7 +61,7 @@ class BigRecipeCard extends StatelessWidget {
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),
-              textAlign: TextAlign.center, // Center the title - doesn't work
+              textAlign: TextAlign.center, // Center the title
             ),
             const SizedBox(height: 16),
 
@@ -62,7 +71,7 @@ class BigRecipeCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.timer, color: Colors.orange), // Timer icon
+                    const Icon(Icons.timer, color: Colors.black87), // Timer icon
                     const SizedBox(width: 8),
                     Text('Cooking Time: ${recipe.cookingTime} min'),
                   ],
@@ -78,13 +87,13 @@ class BigRecipeCard extends StatelessWidget {
                     children: [
                       const Icon(
                         Icons.arrow_drop_down,
-                        color: Colors.white,
+                        color: Colors.black87,
                         size: 16,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         recipe.category.toString().split('.').last, // Display category name
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.black87),
                       ),
                     ],
                   ),
@@ -109,6 +118,7 @@ class BigRecipeCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(recipe.instructions),
+            // Favorite Button for toggling
           ],
         ),
       ),

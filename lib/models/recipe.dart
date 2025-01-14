@@ -1,10 +1,5 @@
-//import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-// Recipe model. Defines different food categories and icon for each category
-// Uses uuid() to generate unique ID for each recipe (for deleting)
-
-//creates unique IDs for each recipe
 const uuid = Uuid();
 
 // Defines the categories
@@ -18,6 +13,7 @@ class Recipe {
     required this.ingredients,
     required this.cookingTime,
     required this.category,
+    this.isFavorite = false,  // Make it mutable and provide a default value of false
     this.imagePath,
     this.photoUrl,
   }) : id = uuid.v4();
@@ -28,9 +24,7 @@ class Recipe {
   final String ingredients;
   final String cookingTime;
   final Category category;
-  final String? imagePath; // stores image path - seinna
+  bool isFavorite; // Change this to non-final so it can be modified
+  final String? imagePath; // stores image path
   final String? photoUrl; // URL for an online photo
 }
-
-
-

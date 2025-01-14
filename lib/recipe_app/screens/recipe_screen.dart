@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/models/recipe.dart';
-import 'package:recipeapp/data/recipe_data.dart';
-// import 'package:recipeapp/colors.dart'; // Import the colors file
-import 'package:recipeapp/widgets/big_recipe_card.dart'; // Import the BigRecipeCard widget
-// import 'package:recipeapp/recipe_app/screens/all_recipes_screen.dart'; // Import AllRecipesScreen
+import '../../widgets/big_recipe_card.dart';
 
 class RecipeScreen extends StatefulWidget {
   final Recipe recipe;
@@ -26,16 +23,16 @@ class _RecipeScreenState extends State<RecipeScreen> {
 
   // Example function to check if the recipe is in the favorites list
   bool _checkIfFavorite(Recipe recipe) {
-    // in-memory list of favorite recipes
-    return false; //replace this logic with actual favorite management?
+    // You can add your logic for checking if a recipe is in the favorites list
+    // Here I'm returning false by default
+    return false;
   }
 
   // Toggle the favorite status of the recipe
   void _toggleFavorite() {
     setState(() {
       _isFavorite = !_isFavorite;
-      // Perform the logic to add or remove the recipe from favorites
-      // You could update the favorites list in your global state or persistence here
+      // You can perform any additional logic to add/remove the recipe from the favorites list
     });
   }
 
@@ -75,7 +72,6 @@ class _RecipeScreenState extends State<RecipeScreen> {
             right: 0,
             bottom: 0,
             child: Container(
-              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: const BorderRadius.only(
@@ -90,7 +86,11 @@ class _RecipeScreenState extends State<RecipeScreen> {
                   ),
                 ],
               ),
-              child: BigRecipeCard(recipe: widget.recipe),
+              child: BigRecipeCard(
+                recipe: widget.recipe, // Pass the recipe
+                isFavorite: _isFavorite, // Pass the isFavorite flag
+                toggleFavorite: _toggleFavorite, // Pass the toggleFavorite function
+              ),
             ),
           ),
         ],
@@ -132,4 +132,3 @@ class _RecipeScreenState extends State<RecipeScreen> {
     );
   }
 }
-

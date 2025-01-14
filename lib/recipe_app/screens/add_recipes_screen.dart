@@ -10,11 +10,13 @@ class AddRecipesScreen extends StatefulWidget {
   const AddRecipesScreen({
     super.key,
     required this.onBack,  // Callback to navigate back to the previous screen
+    required this.onNavigate,
     required this.onAddRecipe,  // Callback to add the new recipe
   });
 
   final void Function(Recipe recipe) onAddRecipe; // Function to add the recipe to the list
   final VoidCallback onBack;  // Function to navigate back
+  final Function(String)  onNavigate;
 
   @override
   State<AddRecipesScreen> createState() {
@@ -43,8 +45,10 @@ class _AddRecipesState extends State<AddRecipesScreen> {
     // Check if any of the required fields are empty
     if (_titleController.text.trim().isEmpty ||
         _ingredientsController.text.trim().isEmpty ||
-        _instructionsController.text.trim().isEmpty ||
-        (_photoUrlController.text.trim().isEmpty && _pickedImage == null)) {
+        _instructionsController.text.trim().isEmpty
+        // || (_photoUrlController.text.trim().isEmpty && _pickedImage == null)
+        )
+    {
       // If some fields are empty, show an error dialog
       showDialog(
         context: context,
@@ -87,7 +91,11 @@ class _AddRecipesState extends State<AddRecipesScreen> {
     widget.onAddRecipe(newRecipe);
 
     // Navigate back to the previous screen after adding the recipe
-    widget.onBack();
+    //widget.onBack();
+
+    // Now navigate back to the 'recipe_screen'
+    widget.onNavigate('recipe_screen');
+
   }
 
   // Dispose of controllers when the screen is destroyed to free up memory
@@ -280,7 +288,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                     // Save Button
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: _submitRecipeData,
+                      onPressed: _submitRecipeData, // Call _submitRecipeData when pressed
                       child: const Text('Save Recipe'),
                     ),
                     const SizedBox(height: 20),
@@ -301,9 +309,9 @@ class _AddRecipesState extends State<AddRecipesScreen> {
             child: Opacity(
               opacity: 0.75,
               child: FloatingActionButton(
-                onPressed: widget.onBack,
+                onPressed: widget.onBack, // This handles navigation back
                 backgroundColor: Colors.white,
-                child: const Icon(Icons.arrow_back, color: Colors.black),
+                child: const Icon(Icons.close, color: Colors.black),
               ),
             ),
           ),
