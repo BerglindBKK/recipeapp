@@ -18,14 +18,14 @@ class MainScreenButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onTap, // This will run the function passed as 'onTap'
       style: ElevatedButton.styleFrom(
-        backgroundColor: colorScheme.primary, // Set the background color of the button
-        foregroundColor: colorScheme.surface, // Set the text color
+        backgroundColor: colorScheme.surface, // Set the background color of the button
+        foregroundColor: colorScheme.onSurface, // Set the text color
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40), // Make the corners of the button rounded
-          side: BorderSide(
-            color: colorScheme.primary, // Set the border color to the primary color
-            width: 1.0, // Set the border width
-          ),
+          borderRadius: BorderRadius.circular(20), // Make the corners of the button rounded
+          //side: BorderSide(
+          //  color: colorScheme.primary, // Set the border color to the primary color
+          //  width: 1.0, // Set the border width
+          //),
         ),
         elevation: 8.0, // Adds shadow to the button to give it a raised effect
       ),

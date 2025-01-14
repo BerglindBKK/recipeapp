@@ -59,7 +59,7 @@ class _RecipeAppState extends State<RecipeApp> {
           onNavigate: switchScreen,
         );
         break;
-    // If the current screen is 'add-recipes', display the AddRecipesScreen.
+      // If the current screen is 'add-recipes', display the AddRecipesScreen.
       case 'add-recipes':
         screenWidget = AddRecipesScreen(
           // switches the screen back to the 'all-recipes' screen.
@@ -72,15 +72,9 @@ class _RecipeAppState extends State<RecipeApp> {
         screenWidget = FavoritesScreen(
           onBack: () => switchScreen('all-recipes'),
         );
+        break;
       default:
-        screenWidget = AllRecipesScreen(
-          // onBack callback switches back to "welcome-screen"
-          onBack: () => switchScreen('welcome-screen'),
-          // Passes the list of registered recipes to the AllRecipesScreen to display.
-          recipes: _registeredRecipes,
-          // Pass the onNavigate callback to switch screens
-          onNavigate: switchScreen,
-        );
+      screenWidget = WelcomeScreen(onNavigate: switchScreen);
     }
 
     return MaterialApp(

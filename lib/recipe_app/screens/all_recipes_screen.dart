@@ -72,51 +72,67 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
       ),
 
       // Body of the screen
-      body: Column(
+      body: Stack(
         children: [
-          // Search bar that allows the user to search for recipes
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0, right: 25.0, top: 8),  // Padding for the search bar
-            child: Container(
-              width: double.infinity,  // Make the search bar the same width as recipe cards
-              height: 55,  // Set height of the search bar
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1F1F1),  // Light grey background
-                borderRadius: BorderRadius.circular(48),  // Rounded corners
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/recipe_app_landing.jpg'),
+                fit: BoxFit.cover, // Image covers the entire screen
               ),
-              child: TextField(
-                onChanged: (String newQuery) {
-                  setState(() {
-                    query = newQuery;  // Update the query as the user types
-                  });
-                },
-                textAlign: TextAlign.center,  // Center the text and placeholder inside the field
-                decoration: const InputDecoration(
-                  hintText: 'Search recipes...',  // Placeholder text in the search field
-                  hintStyle: TextStyle(color: Color(0xFFA5A5A5)),  // Set the color of the placeholder text
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.only(left: 12.0),  // Adjust icon padding so it stays centered
-                    child: Icon(
-                      Icons.search,  // Search icon
-                      color: Color(0xFFA5A5A5),  // Set the color of the icon
+            ),
+          ),
+// White overlay with opacity
+          Container(
+            color: Colors.white.withValues(alpha:0.8),  // White overlay with opacity
+          ),
+          Column(
+            children: [
+            // Search bar that allows the user to search for recipes
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0, right: 25.0, top: 8),  // Padding for the search bar
+              child: Container(
+                width: double.infinity,  // Make the search bar the same width as recipe cards
+                height: 55,  // Set height of the search bar
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F1F1),  // Light grey background
+                  borderRadius: BorderRadius.circular(48),  // Rounded corners
+                ),
+                child: TextField(
+                  onChanged: (String newQuery) {
+                    setState(() {
+                      query = newQuery;  // Update the query as the user types
+                    });
+                  },
+                  textAlign: TextAlign.center,  // Center the text and placeholder inside the field
+                  decoration: const InputDecoration(
+                    hintText: 'Search recipes...',  // Placeholder text in the search field
+                    hintStyle: TextStyle(color: Color(0xFFA5A5A5)),  // Set the color of the placeholder text
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.only(left: 12.0),  // Adjust icon padding so it stays centered
+                      child: Icon(
+                        Icons.search,  // Search icon
+                        color: Color(0xFFA5A5A5),  // Set the color of the icon
+                      ),
                     ),
+                    border: InputBorder.none,  // Remove the default border
+                    contentPadding: EdgeInsets.symmetric(vertical: 15),  // Center the content vertically
                   ),
-                  border: InputBorder.none,  // Remove the default border
-                  contentPadding: EdgeInsets.symmetric(vertical: 15),  // Center the content vertically
                 ),
               ),
             ),
-          ),
 
-          // List of recipes that are filtered based on the search query
-          Expanded(
-            child: RecipesList(
-              // Pass the filtered list of recipes to the RecipesList widget
-              recipes: _getFilteredRecipes(query),  // Use the filtered list of recipes
-              onDeleteRecipe: _deleteRecipe, // Pass the function to delete a recipe
+            // List of recipes that are filtered based on the search query
+            Expanded(
+              child: RecipesList(
+                // Pass the filtered list of recipes to the RecipesList widget
+                recipes: _getFilteredRecipes(query),  // Use the filtered list of recipes
+                onDeleteRecipe: _deleteRecipe, // Pass the function to delete a recipe
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+      ]
       ),
 
       // Floating Action Button to navigate to Add Recipes Screen and FavoritesScreen

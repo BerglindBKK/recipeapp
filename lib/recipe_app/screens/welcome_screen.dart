@@ -18,15 +18,15 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome'),
+      //appBar: AppBar(
+        //title: const Text('Welcome'),
         //actions: [
         //IconButton(
         //onPressed: onBack,
         //icon: const Icon(Icons.arrow_back),
         //),
         //],
-      ),
+      //),
       // Stack for overlaying widgets on top of each other (background + content)
       body: Stack(
         children: [
@@ -34,12 +34,16 @@ class WelcomeScreen extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                // image: AssetImage('assets/images/recipe_app_landing.jpg'), // Doesn't work
-                image: NetworkImage('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'),
+                image: AssetImage('assets/images/recipe_app_landing.jpg'),
                 fit: BoxFit.cover, // Image covers the entire screen
               ),
             ),
           ),
+// White overlay with opacity
+          Container(
+            color: Colors.white.withValues(alpha:0.6),  // White overlay with opacity
+          ),
+
           // Overlay content
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -65,6 +69,14 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
+                // Button 3
+                SizedBox(
+                  width: double.infinity,
+                  child: MainScreenButton(
+                    onTap: () => onNavigate('favorites'),
+                    buttonText: 'FAVORITE RECIPES',
+                  ),
+                ),
                 // RecipeCard
                 //SizedBox(
                 //width: double.infinity,
@@ -81,11 +93,11 @@ class WelcomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 10.0,
-        onPressed: () => onNavigate('add-recipes'),
-        child: const Icon(Icons.add),  // Icon inside the button
-      ),
+      //floatingActionButton: FloatingActionButton(
+      //  elevation: 10.0,
+      //  onPressed: () => onNavigate('add-recipes'),
+      //  child: const Icon(Icons.add),  // Icon inside the button
+      //),
     );
   }
 }

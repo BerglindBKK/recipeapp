@@ -11,7 +11,7 @@ const kColorScheme = ColorScheme(
   //background: Color(0xFFF1F1F1),
   //onBackground: Colors.black,
   surface: Colors.white,
-  onSurface: Colors.black,
+  onSurface: Colors.black87,
   error: Colors.red,
   onError: Colors.white,
 );
