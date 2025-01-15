@@ -60,7 +60,6 @@ String getCategoryDefaultImage(Category category) {
       return 'assets/images/default_salad.png';
     case Category.dessert:
       return 'assets/images/default_dessert.png';
-  //default:
-  //  return 'assets/images/default_meat.png';  // Default image if the category is unknown
+
   }
 }

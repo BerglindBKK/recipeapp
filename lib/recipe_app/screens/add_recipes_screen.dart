@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io'; // To work with File
 import 'package:recipeapp/models/recipe.dart';
-import 'package:recipeapp/widgets/custom_input_container.dart'; // Import custom input container
-import 'package:recipeapp/colors.dart'; // Import the colors file for category color management
+import 'package:recipeapp/widgets/custom_input_container.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AddRecipesScreen extends StatefulWidget {
@@ -111,35 +110,42 @@ class _AddRecipesState extends State<AddRecipesScreen> {
 
   // Function to pick image from gallery
   Future<void> _pickImage() async {
-    // Check permission to access photos
+    // Get the current context before the async operation
+    BuildContext context = this.context;
+
+    // Request permission to access photos
     PermissionStatus status = await Permission.photos.request();
 
     if (status.isGranted) {
+      // Pick an image if permission is granted
       final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         setState(() {
-          _pickedImage = File(pickedFile.path);  // Store the picked image
+          _pickedImage = File(pickedFile.path);
         });
       }
     } else {
-      // Handle permission denial
-      showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Permission Denied'),
-          content: const Text('Please allow gallery access to pick an image.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx);
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
+      // Show dialog if permission is denied
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('Permission Denied'),
+            content: const Text('Please allow gallery access to pick an image.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +215,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha:0.1),
                     blurRadius: 8,
                     spreadRadius: 2,
                   ),
@@ -249,7 +255,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                                 borderRadius: BorderRadius.circular(8), // Rounded corners for the container
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
+                                    color: Colors.black.withValues(alpha: 0.05),
                                     offset: const Offset(0, 2),
                                     blurRadius: 8,
                                     spreadRadius: 2,
@@ -263,7 +269,9 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                                     .map(
                                       (category) => DropdownMenuItem<Category>(
                                     value: category,
-                                    child: Text(category.name),
+                                    child: Text(category.name,
+                                        style: const TextStyle(color: Colors.black54)
+                                    ),
                                   ),
                                 )
                                     .toList(),
@@ -275,7 +283,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                                     _selectedCategory = value;
                                   });
                                 },
-                                style: TextStyle(color: Colors.black), // Optional: Style for the text inside the dropdown
+                                style: const TextStyle(color: Colors.black), // Optional: Style for the text inside the dropdown
                                 icon: const Icon(Icons.arrow_drop_down), // Optional: Custom icon for the dropdown
                                 underline: Container(), // Remove the default underline
                               ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/models/recipe.dart';
-import 'package:recipeapp/recipe_app/screens/recipe_screen.dart'; // Import RecipeScreen
+import 'package:recipeapp/recipe_app/screens/recipe_screen.dart';  // Import RecipeScreen
 import 'package:recipeapp/widgets/recipes_list.dart';  // Import RecipesList
 import 'package:recipeapp/widgets/searchbar.dart';  // Import SearchBarApp
+import 'package:recipeapp/data/recipe_data.dart';  // Import RecipeData to access the hardcoded recipes
 
 class Recipes extends StatefulWidget {
   const Recipes({super.key});
@@ -14,28 +15,8 @@ class Recipes extends StatefulWidget {
 }
 
 class _RecipeState extends State<Recipes> {
-  // Sample list of recipes
-  final List<Recipe> _registeredRecipes = [
-    Recipe(
-      title: 'Rice Crispies Cookies',
-      ingredients: 'Rice crispies, syrup',
-      instructions: 'Mix and cool',
-      cookingTime: '40 min',
-      category: Category.dessert,
-      imagePath: '', // Add image path if available
-      photoUrl: '', // Add a URL if available
-    ),
-    Recipe(
-      title: 'Pasta Bolognese',
-      ingredients: 'Pasta, meat, tomato sauce',
-      instructions: 'Cook pasta, prepare sauce',
-      cookingTime: '30 min',
-      category: Category.pasta,
-      imagePath: '',
-      photoUrl: '',
-    ),
-    // More recipes can be added here
-  ];
+  // Use the hardcoded recipes from RecipeData
+  final List<Recipe> _registeredRecipes = RecipeData.registeredRecipes;
 
   // Function to toggle favorite status of a recipe
   void _toggleFavorite(Recipe recipe) {
@@ -69,14 +50,14 @@ class _RecipeState extends State<Recipes> {
       ),
       body: Column(
         children: [
-          SearchBarApp(recipes: _registeredRecipes),
+          SearchBarApp(recipes: _registeredRecipes),  // Pass the recipes to the SearchBarApp
           _registeredRecipes.isEmpty
-              ? const Center(child: Text('No recipes available.'))
+              ? const Center(child: Text('No recipes available.'))  // Message when no recipes exist
               : RecipesList(
-            recipes: _registeredRecipes,
-            onDeleteRecipe: _deleteRecipe, // Pass the delete handler
-            toggleFavorite: _toggleFavorite, // Pass the toggle favorite handler
-            onRecipeTap: _navigateToRecipe, // Handle recipe selection
+            recipes: _registeredRecipes,  // Pass the list of recipes
+            onDeleteRecipe: _deleteRecipe,  // Pass the delete handler
+            toggleFavorite: _toggleFavorite,  // Pass the toggle favorite handler
+            onRecipeTap: _navigateToRecipe,  // Handle recipe selection
           ),
         ],
       ),

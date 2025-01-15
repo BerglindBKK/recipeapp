@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';  // Import image_picker
-import 'package:permission_handler/permission_handler.dart';  // Import permission_handler
+import 'package:image_picker/image_picker.dart';  // Import image_picker for image selection
+import 'package:permission_handler/permission_handler.dart';  // Import permission_handler to manage permissions
 import 'dart:io';  // Import File to handle picked image
-import 'package:recipeapp/models/recipe.dart';
+import 'package:recipeapp/models/recipe.dart';  // Import Recipe model to use in your app
 
 class NewRecipe extends StatefulWidget {
   const NewRecipe({
     super.key,
-    required this.onBack,
-    required this.title,
-    required this.onAddRecipe,
+    required this.onBack, // Callback to go back to the previous screen
+    required this.title,  // Title for the new recipe
+    required this.onAddRecipe, // Callback to add the new recipe
   });
 
-  final void Function(Recipe recipe) onAddRecipe;
-  final VoidCallback onBack;
-  final String title;
+  final void Function(Recipe recipe) onAddRecipe;  // Callback to add a new recipe
+  final VoidCallback onBack;  // Callback to navigate back
+  final String title;  // Title of the new recipe screen
 
   @override
   State<NewRecipe> createState() {
@@ -23,8 +23,8 @@ class NewRecipe extends StatefulWidget {
 }
 
 class _NewRecipeState extends State<NewRecipe> {
-  File? _image;  // Variable to store picked image
-  final ImagePicker _picker = ImagePicker();  // Image picker instance
+  File? _image;  // Variable to store the picked image
+  final ImagePicker _picker = ImagePicker();  // Instance of ImagePicker to pick images from camera or gallery
 
   // Method to pick an image from the camera or gallery
   Future<void> _pickImage(ImageSource source) async {
@@ -43,7 +43,7 @@ class _NewRecipeState extends State<NewRecipe> {
         });
       }
     } else if (permissionStatus.isDenied || permissionStatus.isRestricted) {
-      // If the permission is denied or restricted, show an alert
+      // If permission is denied or restricted, show an alert
       if (mounted) {
         showDialog(
           context: context,
@@ -73,7 +73,7 @@ class _NewRecipeState extends State<NewRecipe> {
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);  // Close the dialog
-                  openAppSettings(); // Direct user to the app settings to enable permission
+                  openAppSettings(); // Open app settings for the user to enable permission
                 },
                 child: const Text('Go to Settings'),
               ),
@@ -90,7 +90,6 @@ class _NewRecipeState extends State<NewRecipe> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -99,17 +98,15 @@ class _NewRecipeState extends State<NewRecipe> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 20),
-          // Your existing input fields for title, ingredients, etc.
-
-          // Option to pick image from gallery or camera
+          // Option to pick an image from the gallery or camera
           ElevatedButton(
             onPressed: () {
-              _showImageSourceDialog();  // Show dialog to choose between camera and gallery
+              _showImageSourceDialog();  // Show a dialog to choose between camera or gallery
             },
             child: const Text('Pick an Image'),
           ),
 
-          // Display the selected image
+          // Display the selected image, if any
           if (_image != null)
             Image.file(
               _image!,
@@ -117,13 +114,13 @@ class _NewRecipeState extends State<NewRecipe> {
               width: 200,
             ),
 
-          // Your existing Save button logic
+          // Add any other input fields for the recipe title, ingredients, etc.
         ],
       ),
     );
   }
 
-  // Show dialog to choose image source (camera or gallery)
+  // Show a dialog to choose the image source (camera or gallery)
   void _showImageSourceDialog() {
     showDialog(
       context: context,
@@ -133,15 +130,15 @@ class _NewRecipeState extends State<NewRecipe> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
-                _pickImage(ImageSource.camera);  // Pick image from camera
+                Navigator.pop(context);  // Close the dialog
+                _pickImage(ImageSource.camera);  // Allow the user to pick an image from the camera
               },
               child: const Text('Camera'),
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
-                _pickImage(ImageSource.gallery);  // Pick image from gallery
+                Navigator.pop(context);  // Close the dialog
+                _pickImage(ImageSource.gallery);  // Allow the user to pick an image from the gallery
               },
               child: const Text('Gallery'),
             ),
