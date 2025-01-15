@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipeapp/models/recipe.dart';
+import '../../data/recipe_data.dart';
 import '../../widgets/big_recipe_card.dart';
 
 // RecipeScreen displays the details of a single recipe
@@ -63,7 +64,7 @@ class RecipeScreenState extends State<RecipeScreen> {
               fit: BoxFit.cover,
             )
                 : Image.asset(
-              'assets/default_recipe_image.jpg',  // Default image when no URL or asset provided
+              getCategoryDefaultImage(widget.recipe.category),  // Default image when no URL or asset provided
               width: double.infinity,
               height: 300,
               fit: BoxFit.cover,
