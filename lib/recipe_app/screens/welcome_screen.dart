@@ -25,7 +25,7 @@ class WelcomeScreen extends StatelessWidget {
                 height: 250,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/forsida.jpg'),
+                    image: AssetImage('assets/images/forsida2.png'),
                     fit: BoxFit.cover,
                   ),
                 ),

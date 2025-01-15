@@ -90,6 +90,7 @@ flutter:
     - assets/images/hotdog.jpg
     - assets/images/welcomescreen1.png
     - assets/images/forsida.jpg
+    - assets/images/forsida2.png
   # image: NetworkImage('https://example.com/your_image.png')
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

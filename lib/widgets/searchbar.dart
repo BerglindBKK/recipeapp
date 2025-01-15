@@ -25,7 +25,7 @@ class _SearchBarAppState extends State<SearchBarApp> {
             width: double.infinity,  // Make search bar the same width as recipe cards.
             height: 55,  // Set height of search bar.
             decoration: BoxDecoration(
-              color: const Color(0xFFF1F1F1),  // Light gray background.
+              color: const Color(0xFFF4F4F4),  // Light gray background.
               borderRadius: BorderRadius.circular(48),  // Rounded corners.
             ),
             child: TextField(
