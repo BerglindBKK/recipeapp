@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
-//import 'package:recipeapp/theme.dart';
 import 'package:recipeapp/widgets/main_screen_button.dart';
-//import 'package:recipeapp/widgets/recipe_card.dart';
-//import 'package:recipeapp/widgets/recipes_list.dart';
-//import 'package:recipeapp/models/recipe.dart';
-//import 'package:recipeapp/recipe_app/screens/all_recipes_screen.dart';
-//import 'package:text_hover/config.dart';
-//import 'package:text_hover/text_hover.dart';
-//import 'package:lokaverkefni/widgets/floating_action_button.dart';
 
-// The welcome page
+// The welcome page. SHows three buttons to navigate to: -all revipes screen, -add recipe screen, favorite screen
+
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key, required this.onNavigate});
 
@@ -18,30 +11,26 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(
-        //title: const Text('Welcome'),
-        //actions: [
-        //IconButton(
-        //onPressed: onBack,
-        //icon: const Icon(Icons.arrow_back),
-        //),
-        //],
-      //),
+      backgroundColor: Colors.white,
       // Stack for overlaying widgets on top of each other (background + content)
       body: Stack(
         children: [
           // Background image
           Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/recipe_app_landing.jpg'),
-                fit: BoxFit.cover, // Image covers the entire screen
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Align(
+              alignment: const Alignment(0.0, -0.2),
+              child: Container(
+                width: 300,
+                height: 250,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/forsida.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
-          ),
-// White overlay with opacity
-          Container(
-            color: Colors.white.withValues(alpha:0.6),  // White overlay with opacity
           ),
 
           // Overlay content
@@ -51,6 +40,7 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 350),
                 // Button 1
                 SizedBox(
                   width: double.infinity,
@@ -77,27 +67,11 @@ class WelcomeScreen extends StatelessWidget {
                     buttonText: 'FAVORITE RECIPES',
                   ),
                 ),
-                // RecipeCard
-                //SizedBox(
-                //width: double.infinity,
-                //child: RecipeCard(
-                //recipes[index],
-                //onTap: () => onNavigate('add-recipes'),
-                //cardText : 'Title frá welcome_screen',
-                //title: recipe.title
-                //cardText: 'HALLÓ SÉST ÉG??',
-                //),
-                //),
               ],
             ),
           ),
         ],
       ),
-      //floatingActionButton: FloatingActionButton(
-      //  elevation: 10.0,
-      //  onPressed: () => onNavigate('add-recipes'),
-      //  child: const Icon(Icons.add),  // Icon inside the button
-      //),
     );
   }
 }

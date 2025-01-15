@@ -239,28 +239,49 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                           ),
                           const SizedBox(width: 16),
 
-                          // Category Dropdown
+                          // Category Dropdown Section
                           Expanded(
-                            child: DropdownButton<Category>(
-                              value: _selectedCategory,
-                              items: Category.values
-                                  .map(
-                                    (category) => DropdownMenuItem<Category>(
-                                  value: category,
-                                  child: Text(category.name),
-                                ),
-                              )
-                                  .toList(),
-                              onChanged: (value) {
-                                if (value == null) {
-                                  return;
-                                }
-                                setState(() {
-                                  _selectedCategory = value;
-                                });
-                              },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16), // Add padding
+                              margin: const EdgeInsets.only(bottom: 16, right: 16, left: 16), // Add margin for spacing
+                              decoration: BoxDecoration(
+                                color: Colors.grey[50], // Light grey background color
+                                borderRadius: BorderRadius.circular(8), // Rounded corners for the container
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.05),
+                                    offset: const Offset(0, 2),
+                                    blurRadius: 8,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: DropdownButton<Category>(
+                                value: _selectedCategory,
+                                isExpanded: true, // Ensure the dropdown takes up the full width of the container
+                                items: Category.values
+                                    .map(
+                                      (category) => DropdownMenuItem<Category>(
+                                    value: category,
+                                    child: Text(category.name),
+                                  ),
+                                )
+                                    .toList(),
+                                onChanged: (value) {
+                                  if (value == null) {
+                                    return;
+                                  }
+                                  setState(() {
+                                    _selectedCategory = value;
+                                  });
+                                },
+                                style: TextStyle(color: Colors.black), // Optional: Style for the text inside the dropdown
+                                icon: const Icon(Icons.arrow_drop_down), // Optional: Custom icon for the dropdown
+                                underline: Container(), // Remove the default underline
+                              ),
                             ),
                           ),
+
                         ],
                       ),
                     ),

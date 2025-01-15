@@ -53,8 +53,11 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         flexibleSpace: Padding(
           padding: const EdgeInsets.only(top: 48.0, left: 16),
           child: Row(
@@ -70,14 +73,14 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
       ),
       body: Stack(
         children: [
-          Container(
+          /*Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/recipe_app_landing.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
-          ),
+          ),*/
           Container(
             color: Colors.white.withOpacity(0.8),
           ),
@@ -133,25 +136,15 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
             bottom: 16,
             right: 16,
             child: FloatingActionButton(
+              backgroundColor: colorScheme.surface, // Set the background color of the button
+              foregroundColor: colorScheme.onSurface, // Set the text color
               elevation: 5.0,
+              hoverElevation: 10.0,
               onPressed: () => widget.onNavigate('add-recipes'),
-              backgroundColor: Colors.white,
+              //backgroundColor: Colors.white,
               child: const Icon(
                 Icons.add,
                 color: Colors.black,
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 16,
-            left: 16,
-            child: FloatingActionButton(
-              elevation: 5.0,
-              onPressed: () => widget.onNavigate('favorites'),
-              backgroundColor: Colors.white,
-              child: const Icon(
-                Icons.favorite,
-                color: Colors.red,
               ),
             ),
           ),

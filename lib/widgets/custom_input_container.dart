@@ -30,7 +30,7 @@ class CustomInputContainer extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
-            offset: const Offset(0, 4),
+            offset: const Offset(0, 2),
             blurRadius: 8,
             spreadRadius: 2,
           ),

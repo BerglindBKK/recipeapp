@@ -150,18 +150,6 @@ class RecipeCard extends StatelessWidget {
               ),
             ),
 
-            // Add Favorite Button
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: IconButton(
-                    icon: Icon(
-                      isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: isFavorite ? Colors.red : Colors.grey,
-                    ),
-                    onPressed: toggleFavorite, // Calls the toggleFavorite callback
-                  ),
-                ),
               ],
             ),
           ),
