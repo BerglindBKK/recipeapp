@@ -8,7 +8,7 @@ class RecipeData {
       title: 'Rúlluterta með ostasósu',
       ingredients: 'rúlla, terta, ostur, sósa',
       instructions: 'baka og borða',
-      cookingTime: '40min',
+      cookingTime: '40',
       category: Category.dessert,
       imagePath: 'assets/images/rulluterta.jpg'
     ),
@@ -16,7 +16,7 @@ class RecipeData {
       title: 'Pasta með sinnepi',
       ingredients: 'pasta, sinnep',
       instructions: 'sjóða pasta, sprauta sinnepi yfir',
-      cookingTime: '10min',
+      cookingTime: '10',
       category: Category.pasta,
       imagePath: 'assets/images/pasta.jpg'
     ),
@@ -24,7 +24,7 @@ class RecipeData {
       title: 'Spergilkál með remúlaði',
       ingredients: 'broccoli, remúlaði',
       instructions: 'gufusjóða spergilkálið, blanda saman við remúlaði',
-      cookingTime: '10min',
+      cookingTime: '10',
       category: Category.salad,
       imagePath: 'assets/images/broccoli.jpg'
     ),
@@ -32,7 +32,7 @@ class RecipeData {
       title: 'Rækjusalat með tómatsósu',
       ingredients: 'rækjusalat, tómatsósa',
       instructions: 'hellið rækjusalatinu úr dósinni, blandið saman með tímatsósu',
-      cookingTime: '2min',
+      cookingTime: '2',
       category: Category.fish,
       imagePath: 'assets/images/raekjur.jpg'
     ),
@@ -40,7 +40,7 @@ class RecipeData {
         title: 'pulsa með sýrðum rjóma',
         ingredients: 'pulsa, sýrður rjómi',
         instructions: 'sjóða pulsu, dýfa í sýrðan rjóma',
-        cookingTime: '10min',
+        cookingTime: '10',
         category: Category.meat,
         imagePath: 'assets/images/hotdog.jpg'
     ),

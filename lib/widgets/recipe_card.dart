@@ -34,7 +34,6 @@ class RecipeCard extends StatelessWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -86,6 +85,8 @@ class RecipeCard extends StatelessWidget {
                         const SizedBox(height: 8),  // Add spacing between title and other text
                         Row(
                           children: [
+                            const Icon(Icons.timer, color: Color(0xFF4E4D4D), size:18,),  // Timer icon before cooking time
+                            const SizedBox(width: 4),  // Space between icon and text
                             Text(
                               ' ${recipe.cookingTime} min',  // Display the cooking time
                               style: const TextStyle(color: Color(0xFF4E4D4D)),
